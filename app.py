@@ -21,10 +21,13 @@ create_db()
 
 # ---------------- ROUTES ----------------
 
-# Default route → Login page
-@app.route('/login', methods=['POST'])
-def login_check():
-# Signup page
+# DEFAULT ROUTE (LOGIN PAGE)
+@app.route('/')
+def login():
+    return render_template('login.html')
+
+
+# SIGNUP PAGE
 @app.route('/signup_page')
 def signup_page():
     return render_template('signup.html')
@@ -72,13 +75,16 @@ def home():
 # PREDICT
 @app.route('/predict', methods=['POST'])
 def predict():
-    features = [float(x) for x in request.form.values()]
-    final = [np.array(features)]
-    prediction = model.predict(final)
+    try:
+        features = [float(x) for x in request.form.values()]
+        final = [np.array(features)]
+        prediction = model.predict(final)
 
-    return render_template('index.html', prediction_text=f"Prediction: {prediction[0]:.2f}")
+        return render_template('index.html', prediction_text=f"Prediction: {prediction[0]:.2f}")
+    except:
+        return render_template('index.html', prediction_text="Invalid Input")
 
 
-# RUN APP (IMPORTANT FOR RENDER)
+# RUN APP (RENDER COMPATIBLE)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
