@@ -24,7 +24,7 @@ create_db()
 # Default route → Login page
 @app.route('/')
 def login():
-    return render_template('login.html')
+    return "Working 🚀"
 
 
 # Signup page
