@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import pickle
 import numpy as np
+import os
 
 app = Flask(__name__)
 
@@ -19,25 +20,18 @@ def create_db():
 create_db()
 
 # ---------------- ROUTES ----------------
-@app.route('/')
-def home():
-    return render_template('login.html')
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    # your prediction code
-
+# Default route → Login page
 @app.route('/')
 def login():
     return render_template('login.html')
 
+
+# Signup page
 @app.route('/signup_page')
 def signup_page():
     return render_template('signup.html')
+
 
 # SIGNUP
 @app.route('/signup', methods=['POST'])
@@ -53,7 +47,8 @@ def signup():
 
     return redirect(url_for('login'))
 
-# LOGIN
+
+# LOGIN CHECK
 @app.route('/login', methods=['POST'])
 def login_check():
     username = request.form['username']
@@ -70,10 +65,12 @@ def login_check():
     else:
         return render_template('login.html', error="Invalid Login")
 
+
 # HOME (Prediction Page)
 @app.route('/home')
 def home():
     return render_template('index.html')
+
 
 # PREDICT
 @app.route('/predict', methods=['POST'])
@@ -84,8 +81,7 @@ def predict():
 
     return render_template('index.html', prediction_text=f"Prediction: {prediction[0]:.2f}")
 
-if __name__ == "__main__":
-   import os
 
+# RUN APP (IMPORTANT FOR RENDER)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
