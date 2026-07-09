@@ -22,10 +22,8 @@ create_db()
 # ---------------- ROUTES ----------------
 
 # Default route → Login page
-@app.route('/')
-def login():
-    return render_template('login.html')
-
+@app.route('/login', methods=['POST'])
+def login_check():
 # Signup page
 @app.route('/signup_page')
 def signup_page():
