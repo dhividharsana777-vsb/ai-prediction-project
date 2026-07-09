@@ -24,7 +24,10 @@ create_db()
 # DEFAULT ROUTE (LOGIN PAGE)
 @app.route('/')
 def login():
-    return render_template('login.html')
+    try:
+        return render_template('login.html')
+    except Exception as e:
+        return str(e)
 
 
 # SIGNUP PAGE
